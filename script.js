@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabChat = document.getElementById("tab-chat");
   const tabPrompts = document.getElementById("tab-prompts");
 
-  // URL del Worker a Cloudflare
-  const WORKER_URL = "https://pilar-agent.projecte-pilar-ccoo-pv.workers.dev";
+  // URL corregida del Worker a Cloudflare
+  const WORKER_URL = "https://projecte-pilar.francesc-j-hernandez.workers.dev";
 
   // Gestió de les pestanyes
   btnTabChat.addEventListener("click", () => {
