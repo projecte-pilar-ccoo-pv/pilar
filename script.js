@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const userInput = document.getElementById("user-input");
   const chatMessages = document.getElementById("chat-messages");
 
-  // Aquesta URL s'actualitzarà quan tinguem desplegat el Worker de Cloudflare
-  const WORKER_URL = "https://EL_TEU_WORKER.workers.dev";
+  // URL del teu Worker a Cloudflare
+  const WORKER_URL = "https://projecte-pilar.francesc-j-hernandez.workers.dev/";
 
   chatForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -26,7 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const data = await response.json();
-      loadingMessage.textContent = data.resposta || "S'ha produït un error en la resposta.";
+      
+      if (data.error) {
+        loadingMessage.textContent = "Error: " + data.error;
+      } else {
+        loadingMessage.textContent = data.resposta || "S'ha produït un error en la resposta.";
+      }
     } catch (error) {
       loadingMessage.textContent = "Error de connexió amb l'agent. Revisa la configuració del Worker.";
     }
