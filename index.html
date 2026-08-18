@@ -3,31 +3,139 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agència FE CCOO PV - Conflicte Educatiu</title>
-  <link rel="stylesheet" href="style.css">
+  <title>PILAR - FE CCOO PV</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #f4f6f8; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+    
+    .app-container { background: #ffffff; width: 100%; max-width: 800px; height: 90vh; display: flex; flex-direction: column; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); overflow: hidden; }
+    
+    /* Capçalera tipogràfica */
+    .app-header { background-color: #ffffff; border-bottom: 2px solid #d32f2f; padding: 15px; text-align: center; }
+    .logo-text { font-size: 2rem; font-weight: 800; letter-spacing: -1px; color: #212529; }
+    .logo-text span { color: #d32f2f; }
+    .subtitle { font-size: 0.85rem; color: #6c757d; font-weight: 500; margin-top: 2px; }
+
+    /* Pestanyes de navegació */
+    .nav-tabs { display: flex; background: #e9ecef; border-bottom: 1px solid #dee2e6; }
+    .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 600; color: #495057; cursor: pointer; transition: background 0.2s; }
+    .tab-btn.active { background: #ffffff; color: #d32f2f; border-bottom: 3px solid #d32f2f; }
+
+    /* Contingut de les seccions */
+    .tab-content { flex: 1; display: none; flex-direction: column; overflow: hidden; }
+    .tab-content.active { display: flex; }
+
+    /* Estils Secció Xat */
+    .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #fafafa; }
+    .message { max-width: 85%; padding: 12px 16px; border-radius: 8px; font-size: 0.95rem; line-height: 1.4; }
+    .bot-message { background: #e9ecef; color: #212529; align-self: flex-start; }
+    .user-message { background: #d32f2f; color: #ffffff; align-self: flex-end; }
+    .chat-input-area { display: flex; padding: 15px; background: #ffffff; border-top: 1px solid #e0e0e0; gap: 10px; }
+    #user-input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
+    
+    /* Estils Secció Prompts Mestres */
+    .prompts-container { padding: 20px; overflow-y: auto; flex: 1; }
+    .prompt-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+    .prompt-title { font-weight: 700; color: #d32f2f; margin-bottom: 5px; }
+    .prompt-desc { font-size: 0.9rem; color: #555; margin-bottom: 10px; }
+    .prompt-code { background: #272822; color: #f8f8f2; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; white-space: pre-wrap; }
+
+    .btn { background-color: #d32f2f; color: white; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    .btn:hover { background-color: #b71c1c; }
+  </style>
 </head>
 <body>
-  <div class="chat-container">
-    <header class="chat-header">
-      <img src="imatge.png" alt="Logo CCOO PV" class="header-logo">
-      <div>
-        <h2>Asistent FE CCOO PV</h2>
-        <p>Conflicte Educatiu Valencià</p>
-      </div>
+
+  <main class="app-container">
+    <header class="app-header">
+      <div class="logo-text">p<span>I</span>l<span>A</span>r</div>
+      <div class="subtitle">Plataforma Integrada de Lluites i Accions Reivindicatives (FE CCOO PV)</div>
     </header>
-    
-    <div id="chat-messages" class="chat-messages">
-      <div class="message system-message">
-        Hola! Soc l'agent informatiu de la FE CCOO PV. En què et puc ajudar respecte al conflicte educatiu, les negociacions o les pròximes accions?
+
+    <nav class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('chat')">Consulta Agent PILAR</button>
+      <button class="tab-btn" onclick="switchTab('prompts')">Prompts Mestres (Documents)</button>
+    </nav>
+
+    <!-- SECCIÓ 1: XAT DE CONSULTA -->
+    <section id="tab-chat" class="tab-content active">
+      <div id="chat-messages" class="chat-messages">
+        <div class="message bot-message">
+          Hola! Soc l'Agent PILAR. En què et puc ajudar respecte al conflicte educatiu, les negociacions o les pròximes accions?
+        </div>
       </div>
-    </div>
+      <form id="chat-form" class="chat-input-area">
+        <input type="text" id="user-input" placeholder="Escriu la teua consulta ací..." required autocomplete="off">
+        <button type="submit" class="btn">Enviar</button>
+      </form>
+    </section>
 
-    <form id="chat-form" class="chat-input-area">
-      <input type="text" id="user-input" placeholder="Escriu la teua consulta ací..." required autocomplete="off">
-      <button type="submit" id="send-btn">Enviar</button>
-    </form>
-  </div>
+    <!-- SECCIÓ 2: REPOSITORI DE PROMPTS MESTRES -->
+    <section id="tab-prompts" class="tab-content">
+      <div class="prompts-container">
+        <h3>Repositori de Documents i Prompts Mestres</h3>
+        <p style="font-size:0.9rem; color:#666; margin-bottom: 15px;">Selecciona o copiat un prompt mestre per a generar la documentació automàticament.</p>
+        
+        <div class="prompt-card">
+          <div class="prompt-title">Model 1: Recurs d'Al·legacions Col·lectives</div>
+          <div class="prompt-desc">Prompt dissenyat per a generar al·legacions formalitzades davant la Conselleria.</div>
+          <div class="prompt-code">Actua com un assessor jurídic sindical de CCOO PV. Elabora un document d'al·legacions formalitzat adreçat a la Conselleria d'Educació respecte als següents punts: [INSERIR PUNTS]. Utilitza un llenguatge jurídic administratiu rigorós i fonamenta en la normativa docent vigent.</div>
+        </div>
 
-  <script src="script.js"></script>
+        <div class="prompt-card">
+          <div class="prompt-title">Model 2: Comunicat per a Assemblea de Centre</div>
+          <div class="prompt-desc">Plantilla per a redactar resums d'accions i convocatòries de vaga per a claustres.</div>
+          <div class="prompt-code">Redacta una nota informativa per al tauler d'anuncis i correu del claustre sobre els motius de la vaga docent. Destaques els següents punts clau: [INSERIR MOTIUS]. El tó ha de ser convocant, clar i rigorós.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // Connexió xat
+    const chatForm = document.getElementById("chat-form");
+    const userInput = document.getElementById("user-input");
+    const chatMessages = document.getElementById("chat-messages");
+    const WORKER_URL = "https://pilar-agent.projecte-pilar-ccoo-pv.workers.dev";
+
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      appendMsg(text, "user-message");
+      userInput.value = "";
+      const loading = appendMsg("L'Agent PILAR està processant...", "bot-message");
+
+      try {
+        const res = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        loading.textContent = data.reply || data.error || "Sense resposta.";
+      } catch (err) {
+        loading.textContent = "Error de connexió amb l'Agent PILAR.";
+      }
+    });
+
+    function appendMsg(text, className) {
+      const div = document.createElement("div");
+      div.className = `message ${className}`;
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return div;
+    }
+  </script>
 </body>
 </html>
