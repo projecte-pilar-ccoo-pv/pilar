@@ -1,0 +1,23 @@
+INSTRUCCIONS PER A L'ELABORACIÓ DE PROMPTS MESTRES
+
+Un prompt mestre és una plantilla d'instruccions dissenyada perquè qualsevol persona (docent, família, etc.) puga generar documents de manera automàtica (ja siguen sol·licituds, cartes a les famílies, escrits de reclamació o comunicats) utilitzant una Intel·ligència Artificial (com ChatGPT, Gemini, Claude, etc.).
+
+Per crear un prompt mestre efectiu, cal seguir aquesta estructura bàsica:
+
+1. FORMULARI D'ENTRADA DE DADES (AL PRINCIPI DE TOT):
+   Cada prompt mestre ha de començar obligatòriament amb un apartat de dades variables que l'usuari haja d'emplenar segons les seues necessitats específiques. 
+   Exemples pràctics:
+   - Per a una sol·licitud de local d'assemblea: Dia, hora, local concret sol·licitat i dades de qui fa la sol·licitud.
+   - Per a una carta a les famílies: Tema de la convocatòria, data de la reunió, ordre del dia i centre educatiu.
+   - Per a una reclamació: Dades personals, motiu concret i normativa afectada.
+
+2. DEFINICIÓ DEL ROL I L'OBJECTIU:
+   Indiqueu a la IA quin paper ha d'adoptar (per exemple: "Actua com a un representant sindical experimentat en la defensa dels drets laborals") i quin tipus exacte de document s'ha de generar.
+
+3. REVISIÓ DE LA LEGISLACIó:
+   Incloeu sempre una instrucció explícita perquè la IA revise i aplique la legislació sindical o educativa vigent sobre el tema en qüestió (per exemple, estatut dels treballadors, acords sectorials, lleis orgàniques educatives o drets de reunió i vaga aplicables).
+
+4. FORMAT DE SORTIDA:
+   Especifiqueu com voleu que entregue el resultat (per exemple: "Genera el text formal llest per a copiar i pegar, amb un to ferm però respectuós").
+
+Un cop redactat amb aquesta estructura, pujeu-lo al repositori mitjançant el botó corresponent de la web perquè estiga disponible per a tota la comunitat.
