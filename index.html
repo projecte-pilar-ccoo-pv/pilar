@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sindicalista Virtual - CCOO PV</title>
     <style>
-        /* Estils generals i de pestanyes basats en la vostra estructura */
+        /* Estils generals i de pestanyes */
         body { font-family: sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
         .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         
@@ -33,7 +33,7 @@
         .modal-content { background-color: #fff; margin: 10% auto; padding: 25px; border-radius: 8px; width: 90%; max-width: 500px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .close-modal { color: #aaa; float: right; font-size: 24px; font-weight: bold; cursor: pointer; }
         .close-modal:hover { color: black; }
-        .modal input, .modal textarea, .modal select { width: 100%; margin-bottom: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
+        .modal input, .modal textarea { width: 100%; margin-bottom: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
         .modal textarea { height: 100px; resize: vertical; }
 
         /* Estils de l'Assistent Virtual */
@@ -94,19 +94,14 @@
     </div>
 </div>
 
-<!-- Finestra emergent (Modal) adaptada a Supabase (prompts_sindicals) -->
+<!-- Finestra emergent (Modal) per a prompts sindicals -->
 <div id="uploadModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="tancarModal()">&times;</span>
         <h3 style="margin-top: 0; color: #b71c1c;">Aportar Prompt Sindical</h3>
         <input type="text" id="new-prompt-title" placeholder="Títol del prompt">
         <input type="text" id="new-prompt-author" placeholder="Autor / persona que el puja">
-        <select id="new-prompt-type">
-            <option value="dl">Prompt mestre de didàctica (DL)</option>
-            <option value="nl">Prompt mestre de normalització (NL)</option>
-            <option value="sindical">Prompt mestre sindical</option>
-        </select>
-        <input type="text" id="new-prompt-category" placeholder="Matèria / Àmbit">
+        <input type="text" id="new-prompt-category" placeholder="Matèria / Àmbit (ex. Negociació, Reunions...)">
         <textarea id="new-prompt-body" placeholder="Escriu ací el text o la descripció detallada del prompt..."></textarea>
         <button class="btn-accio" onclick="pujarPrompt()">Pujar al repositori</button>
     </div>
@@ -158,7 +153,7 @@
             <div class="prompt-card">
                 <h4 style="margin: 0 0 4px 0; color: #333;">${p.title || 'Sense títol'}</h4>
                 <p style="margin: 0 0 8px 0; font-size: 12px; color: #888;">
-                    Autor: ${p.author || 'Anònim'} | Tipus: ${(p.type || '').toUpperCase()} | Àmbit: ${p.category || 'General'}
+                    Autor: ${p.author || 'Anònim'} | Àmbit: ${p.category || 'General'}
                 </p>
                 <p style="margin: 0 0 12px 0; font-size: 13px; color: #666;">${p.body || ''}</p>
                 <button class="btn-accio" onclick="descarregarPrompt('${encodeURIComponent(p.title || '')}', '${encodeURIComponent(p.body || '')}')">Descarregar</button>
@@ -184,9 +179,9 @@
     async function pujarPrompt() {
         const title = document.getElementById('new-prompt-title').value.trim();
         const author = document.getElementById('new-prompt-author').value.trim();
-        const type = document.getElementById('new-prompt-type').value;
         const category = document.getElementById('new-prompt-category').value.trim();
         const body = document.getElementById('new-prompt-body').value.trim();
+        const type = 'sindical'; // Definit automàticament per a tots
 
         if (!title || !body) {
             alert("Si us plau, ompli almenys el títol i el cos del prompt abans de pujar-lo.");
@@ -231,7 +226,6 @@
         URL.revokeObjectURL(url);
     }
 
-
     // --- LÒGICA DE L'ASSISTENT VIRTUAL ---
     async function enviarMissatge() {
         const input = document.getElementById('userInput');
@@ -240,12 +234,10 @@
 
         const chatMessages = document.getElementById('chat-messages');
         
-        // Afegir missatge usuari
         chatMessages.innerHTML += `<div class="message user">${missatge}</div>`;
         input.value = '';
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Afegir missatge temporal de càrrega
         const loadingId = 'loading-' + Date.now();
         chatMessages.innerHTML += `<div id="${loadingId}" class="message bot loading">Estic buscant la resposta a la consulta. Espera una estona</div>`;
         chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -259,7 +251,6 @@
             const data = await response.json();
             const respostaBot = data.resposta || data.reply || "No s'ha pogut obtindre resposta.";
             
-            // Eliminar missatge de càrrega i posar la resposta
             document.getElementById(loadingId).remove();
             chatMessages.innerHTML += `<div class="message bot">${respostaBot}</div>`;
         } catch (err) {
