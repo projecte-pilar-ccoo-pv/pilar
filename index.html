@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PILAR - FE CCOO PV</title>
+  <title>Sindicalista Virtual - FE CCOO PV</title>
   <style>
     * {
       box-sizing: border-box;
@@ -33,27 +33,24 @@
       overflow: hidden;
     }
     
-    /* Capçalera tipogràfica */
+    /* Capçalera */
     .app-header {
       background-color: #ffffff;
       border-bottom: 2px solid #d32f2f;
-      padding: 15px;
+      padding: 20px;
       text-align: center;
     }
     .logo-text {
-      font-size: 2.2rem;
+      font-size: 1.8rem;
       font-weight: 800;
-      letter-spacing: -1px;
-      color: #212529;
-    }
-    .logo-text span {
       color: #d32f2f;
+      margin-bottom: 5px;
     }
     .subtitle {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #6c757d;
       font-weight: 500;
-      margin-top: 2px;
+      line-height: 1.4;
     }
 
     /* Pestanyes de navegació */
@@ -105,7 +102,6 @@
       border-radius: 8px;
       font-size: 0.95rem;
       line-height: 1.4;
-      word-wrap: break-word;
     }
     .bot-message {
       background: #e9ecef;
@@ -132,7 +128,7 @@
       outline: none;
     }
     
-    /* Estils Secció Prompts Mestres */
+    /* Estils Secció Prompts */
     .prompts-container {
       padding: 20px;
       overflow-y: auto;
@@ -184,20 +180,22 @@
 
   <main class="app-container">
     <header class="app-header">
-      <div class="logo-text">p<span>I</span>l<span>A</span>r</div>
-      <div class="subtitle">Plataforma Integrada de Lluites i Accions Reivindicatives (FE CCOO PV)</div>
+      <div class="logo-text">Sindicalista Virtual en la Mobilització de l'Ensenyament</div>
+      <div class="subtitle">
+        Sindicalista Virtual és una eina d'intel·ligència artificial de la Federació d'Ensenyament de Comissions Obreres del País Valencià al servei de la comunitat educativa. Inclou un assistent virtual que resol dubtes sobre la mobilització i un repositori de prompts perquè docents o famílies puguen elaborar automàticament documents.
+      </div>
     </header>
 
     <nav class="nav-tabs">
-      <button class="tab-btn active" id="btn-tab-chat">Consulta Agent PILAR</button>
-      <button class="tab-btn" id="btn-tab-prompts">Prompts Mestres (Documents)</button>
+      <button class="tab-btn active" id="btn-tab-chat">Assistent Virtual</button>
+      <button class="tab-btn" id="btn-tab-prompts">Repositori de Prompts</button>
     </nav>
 
-    <!-- SECCIÓ 1: XAT DE CONSULTA -->
+    <!-- SECCIÓ 1: XAT -->
     <section id="tab-chat" class="tab-content active">
       <div id="chat-messages" class="chat-messages">
         <div class="message bot-message">
-          Hola! Soc l'Agent PILAR. En què et puc ajudar respecte al conflicte educatiu, les negociacions o les pròximes accions?
+          Hola! Soc el teu Sindicalista Virtual. Com et puc ajudar hui amb la mobilització o la redacció de documents?
         </div>
       </div>
       <form id="chat-form" class="chat-input-area">
@@ -206,22 +204,22 @@
       </form>
     </section>
 
-    <!-- SECCIÓ 2: REPOSITORI DE PROMPTS MESTRES -->
+    <!-- SECCIÓ 2: REPOSITORI -->
     <section id="tab-prompts" class="tab-content">
       <div class="prompts-container">
-        <h3 style="margin-bottom: 5px;">Repositori de Documents i Prompts Mestres</h3>
-        <p style="font-size:0.9rem; color:#666; margin-bottom: 15px;">Selecciona o copia un prompt mestre per a generar la documentació automàticament.</p>
+        <h3 style="margin-bottom: 5px;">Repositori de Prompts Mestres</h3>
+        <p style="font-size:0.9rem; color:#666; margin-bottom: 15px;">Utilitza aquests prompts per a generar la documentació automàticament.</p>
         
         <div class="prompt-card">
           <div class="prompt-title">Model 1: Recurs d'Al·legacions Col·lectives</div>
-          <div class="prompt-desc">Prompt dissenyat per a generar al·legacions formalitzades davant la Conselleria.</div>
+          <div class="prompt-desc">Prompt per a generar al·legacions formalitzades davant la Conselleria.</div>
           <div class="prompt-code">Actua com un assessor jurídic sindical de CCOO PV. Elabora un document d'al·legacions formalitzat adreçat a la Conselleria d'Educació respecte als següents punts: [INSERIR PUNTS]. Utilitza un llenguatge jurídic administratiu rigorós i fonamenta en la normativa docent vigent.</div>
         </div>
 
         <div class="prompt-card">
           <div class="prompt-title">Model 2: Comunicat per a Assemblea de Centre</div>
-          <div class="prompt-desc">Plantilla per a redactar resums d'accions i convocatòries de vaga per a claustres.</div>
-          <div class="prompt-code">Redacta una nota informativa per al tauler d'anuncis i correu del claustre sobre els motius de la vaga docent. Destaques els següents punts clau: [INSERIR MOTIUS]. El tó ha de ser convocant, clar i rigorós.</div>
+          <div class="prompt-desc">Plantilla per a redactar comunicats d'accions i convocatòries de vaga.</div>
+          <div class="prompt-code">Redacta una nota informativa per al tauler d'anuncis i correu del claustre sobre els motius de la mobilització docent. Destaques els següents punts clau: [INSERIR MOTIUS]. El tó ha de ser convocant, clar i rigorós.</div>
         </div>
       </div>
     </section>
@@ -229,4 +227,4 @@
 
   <script src="script.js"></script>
 </body>
-</html>   
+</html>
