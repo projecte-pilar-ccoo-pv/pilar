@@ -149,13 +149,14 @@
             contenidor.innerHTML = "<p>No hi ha prompts disponibles actualment en el repositori.</p>";
             return;
         }
-        contenidor.innerHTML = prompts.map(p => `
+        // Utilitzem l'índex 'index' de la llista per trobar directament el prompt sense fallades de text
+        contenidor.innerHTML = prompts.map((p, index) => `
             <div class="prompt-card">
                 <h4 style="margin: 0 0 6px 0; color: #333; font-size: 16px;">${p.title || 'Sense títol'}</h4>
                 <p style="margin: 0 0 12px 0; font-size: 12px; color: #888;">
                     Autor: ${p.author || 'Anònim'} | Àmbit: ${p.category || 'General'}
                 </p>
-                <button class="btn-accio" onclick="descarregarPrompt('${encodeURIComponent(p.title || '')}', '${encodeURIComponent(p.body || '')}')">Descarregar</button>
+                <button class="btn-accio" onclick="descarregarPromptPerIndex(${index})">Descarregar</button>
             </div>
         `).join('');
     }
@@ -211,17 +212,20 @@
         }
     }
 
-    function descarregarPrompt(titolCodificat, cosCodificat) {
-        const titol = decodeURIComponent(titolCodificat);
-        const cos = decodeURIComponent(cosCodificat);
-        const textComplet = `Títol: ${titol}\n\n${cos}`;
+    function descarregarPromptPerIndex(index) {
+        const p = totsElsPrompts[index];
+        if (!p) return;
+
+        const textComplet = `Títol: ${p.title || ''}\n\n${p.body || ''}`;
         
         const blob = new Blob([textComplet], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${titol || 'prompt'}.txt`;
+        a.download = `${(p.title || 'prompt').replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
 
