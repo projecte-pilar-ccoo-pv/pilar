@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabChat = document.getElementById("tab-chat");
   const tabPrompts = document.getElementById("tab-prompts");
 
-  // URL corregida del Worker a Cloudflare
-  const WORKER_URL = "https://projecte-pilar.francesc-j-hernandez.workers.dev";
+  // URL actualitzada del Worker a Cloudflare (canvia-la si el teu subdomini és diferent)
+  const WORKER_URL = "https://sindicalista-virtual.francesc-j-hernandez.workers.dev";
 
   // Gestió de les pestanyes
   btnTabChat.addEventListener("click", () => {
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     userInput.value = "";
 
     // Indicador de processament
-    const loadingMessage = appendMessage("L'Agent PILAR està processant...", "bot-message");
+    const loadingMessage = appendMessage("El Sindicalista Virtual està processant...", "bot-message");
 
     try {
       const response = await fetch(WORKER_URL, {
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (error) {
       console.error("Error en enviar la consulta:", error);
-      loadingMessage.textContent = "Error de connexió amb l'Agent PILAR: " + error.message;
+      loadingMessage.textContent = "Error de connexió amb el Sindicalista Virtual: " + error.message;
     }
 
     chatMessages.scrollTop = chatMessages.scrollHeight;
