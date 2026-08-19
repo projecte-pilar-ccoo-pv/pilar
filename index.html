@@ -1,230 +1,247 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sindicalista Virtual - FE CCOO PV</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-    body {
-      background-color: #f4f6f8;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 15px;
-    }
-    
-    .app-container {
-      background: #ffffff;
-      width: 100%;
-      max-width: 800px;
-      height: 90vh;
-      display: flex;
-      flex-direction: column;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    
-    /* Capçalera */
-    .app-header {
-      background-color: #ffffff;
-      border-bottom: 2px solid #d32f2f;
-      padding: 20px;
-      text-align: center;
-    }
-    .logo-text {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #d32f2f;
-      margin-bottom: 5px;
-    }
-    .subtitle {
-      font-size: 0.9rem;
-      color: #6c757d;
-      font-weight: 500;
-      line-height: 1.4;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sindicalista Virtual - CCOO PV</title>
+    <style>
+        /* Estils generals i de pestanyes basats en la vostra estructura */
+        body { font-family: sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        .header-title { text-align: center; color: #b71c1c; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+        .header-desc { text-align: center; color: #555; font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
 
-    /* Pestanyes de navegació */
-    .nav-tabs {
-      display: flex;
-      background: #e9ecef;
-      border-bottom: 1px solid #dee2e6;
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      background: none;
-      font-weight: 600;
-      color: #495057;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .tab-btn.active {
-      background: #ffffff;
-      color: #d32f2f;
-      border-bottom: 3px solid #d32f2f;
-    }
+        /* Sistema de pestanyes */
+        .tabs-container { display: flex; border-bottom: 2px solid #ddd; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 12px; text-align: center; background: #f1f1f1; border: none; cursor: pointer; font-weight: bold; font-size: 15px; color: #555; transition: all 0.3s; }
+        .tab-btn.active { background: #fff; color: #b71c1c; border-bottom: 3px solid #b71c1c; }
 
-    /* Contingut de les seccions */
-    .tab-content {
-      flex: 1;
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .tab-content.active {
-      display: flex;
-    }
+        /* Seccions */
+        .section-content { display: none; }
+        .section-content.active { display: block; }
 
-    /* Estils Secció Xat */
-    .chat-messages {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      background: #fafafa;
-    }
-    .message {
-      max-width: 85%;
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-    .bot-message {
-      background: #e9ecef;
-      color: #212529;
-      align-self: flex-start;
-    }
-    .user-message {
-      background: #d32f2f;
-      color: #ffffff;
-      align-self: flex-end;
-    }
-    .chat-input-area {
-      display: flex;
-      padding: 15px;
-      background: #ffffff;
-      border-top: 1px solid #e0e0e0;
-      gap: 10px;
-    }
-    #user-input {
-      flex: 1;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-    }
-    
-    /* Estils Secció Prompts */
-    .prompts-container {
-      padding: 20px;
-      overflow-y: auto;
-      flex: 1;
-    }
-    .prompt-card {
-      background: #f8f9fa;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-    .prompt-title {
-      font-weight: 700;
-      color: #d32f2f;
-      margin-bottom: 5px;
-    }
-    .prompt-desc {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 10px;
-    }
-    .prompt-code {
-      background: #272822;
-      color: #f8f8f2;
-      padding: 10px;
-      border-radius: 5px;
-      font-family: monospace;
-      font-size: 0.85rem;
-      overflow-x: auto;
-      white-space: pre-wrap;
-    }
+        /* Estils per a la secció de Prompts */
+        .intro-prompts { background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #b71c1c; margin-bottom: 20px; font-size: 14px; }
+        .search-bar { width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        .prompt-card { background: #fff; border: 1px solid #e0e0e0; padding: 15px; margin-bottom: 12px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .btn-accio { background: #b71c1c; color: white; padding: 8px 14px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; text-decoration: none; display: inline-block; }
+        .btn-accio:hover { background: #880e4f; }
 
-    .btn {
-      background-color: #d32f2f;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .btn:hover {
-      background-color: #b71c1c;
-    }
-  </style>
+        /* Finestra emergent (Modal) */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: #fff; margin: 10% auto; padding: 25px; border-radius: 8px; width: 90%; max-width: 500px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .close-modal { color: #aaa; float: right; font-size: 24px; font-weight: bold; cursor: pointer; }
+        .close-modal:hover { color: black; }
+        .modal input, .modal textarea { width: 100%; margin-bottom: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
+        .modal textarea { height: 120px; resize: vertical; }
+
+        /* Estils previs de l'Assistent Virtual (intactes) */
+        #chat-container { display: flex; flex-direction: column; height: 400px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #fafafa; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 14px; border-radius: 8px; max-width: 80%; line-height: 1.4; font-size: 14px; }
+        .message.user { background: #e3f2fd; align-self: flex-end; color: #0d47a1; }
+        .message.bot { background: #fff; border: 1px solid #ddd; align-self: flex-start; color: #333; }
+        .chat-input-area { display: flex; padding: 10px; background: #fff; border-top: 1px solid #ddd; }
+        .chat-input-area input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
+        .chat-input-area button { background: #b71c1c; color: white; border: none; padding: 0 20px; margin-left: 8px; border-radius: 4px; cursor: pointer; }
+    </style>
 </head>
 <body>
 
-  <main class="app-container">
-    <header class="app-header">
-      <div class="logo-text">Sindicalista Virtual en la Mobilització de l'Ensenyament</div>
-      <div class="subtitle">
+<div class="container">
+    <div class="header-title">Sindicalista Virtual en la Mobilització de l'Ensenyament</div>
+    <div class="header-desc">
         Sindicalista Virtual és una eina d'intel·ligència artificial de la Federació d'Ensenyament de Comissions Obreres del País Valencià al servei de la comunitat educativa. Inclou un assistent virtual que resol dubtes sobre la mobilització i un repositori de prompts perquè docents o famílies puguen elaborar automàticament documents.
-      </div>
-    </header>
+    </div>
 
-    <nav class="nav-tabs">
-      <button class="tab-btn active" id="btn-tab-chat">Assistent Virtual</button>
-      <button class="tab-btn" id="btn-tab-prompts">Repositori de Prompts</button>
-    </nav>
+    <!-- Pestanyes de navegació -->
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="canviarPestanya('assistent')">Assistent Virtual</button>
+        <button class="tab-btn" onclick="canviarPestanya('repositori')">Repositori de Prompts</button>
+    </div>
 
-    <!-- SECCIÓ 1: XAT -->
-    <section id="tab-chat" class="tab-content active">
-      <div id="chat-messages" class="chat-messages">
-        <div class="message bot-message">
-          Hola! Soc el teu Sindicalista Virtual. Com et puc ajudar hui amb la mobilització o la redacció de documents?
+    <!-- ================= 1. ASSISTENT VIRTUAL (INTACTE) ================= -->
+    <div id="seccio-assistent" class="section-content active">
+        <div id="chat-container">
+            <div id="chat-messages">
+                <div class="message bot">Hola! Sóc l'agent intel·ligent de la FE CCOO PV. En què et puc ajudar avui respecte a la mobilització?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Escriu la teua consulta..." onkeypress="if(event.key === 'Enter') enviarMissatge()">
+                <button onclick="enviarMissatge()">Enviar</button>
+            </div>
         </div>
-      </div>
-      <form id="chat-form" class="chat-input-area">
-        <input type="text" id="user-input" placeholder="Escriu la teua consulta ací..." required autocomplete="off">
-        <button type="submit" class="btn">Enviar</button>
-      </form>
-    </section>
+    </div>
 
-    <!-- SECCIÓ 2: REPOSITORI -->
-    <section id="tab-prompts" class="tab-content">
-      <div class="prompts-container">
-        <h3 style="margin-bottom: 5px;">Repositori de Prompts Mestres</h3>
-        <p style="font-size:0.9rem; color:#666; margin-bottom: 15px;">Utilitza aquests prompts per a generar la documentació automàticament.</p>
+    <!-- ================= 2. REPOSITORI DE PROMPTS ================= -->
+    <div id="seccio-repositori" class="section-content">
+        <div class="intro-prompts">
+            <p><strong>Repositori de Prompts Mestres</strong></p>
+            <p>Els prompts mestres són textos per a elaborar documents, que es poden descarregar lliurement. Al principi de cada text hi ha un formulari, perquè poseu les dades escaients. Empleneu les dades, poseu el text en qualsevol programa d'Intel·ligència Artificial (ChatGPT, Gemini, Kimi, Claude, DeepSeek) i automàticament us generarà el document que necessiteu.</p>
+            <p>
+                Si voleu elaborar els vostres prompts mestres podeu descarregar-vos <a href="instruccions_prompts.txt" download style="color:#b71c1c; font-weight:bold;">ací</a> aquestes senzilles instruccions. 
+                Si voleu aportar-los al repositori, <a href="javascript:void(0);" onclick="obrirModal()" style="color: #b71c1c; font-weight: bold;">feu clic ací</a> per pujar la vostra elaboració.
+            </p>
+        </div>
+
+        <!-- Barra de cerca -->
+        <input type="text" id="searchInput" class="search-bar" placeholder="Cerca prompts per títol o contingut..." onkeyup="filtrarPrompts()">
+
+        <!-- Llista de prompts -->
+        <div id="promptList">Carregant prompts des del sistema...</div>
+    </div>
+</div>
+
+<!-- Finestra emergent (Modal) per aportar prompts -->
+<div id="uploadModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="tancarModal()">&times;</span>
+        <h3 style="margin-top: 0; color: #b71c1c;">Aportar Prompt Mestre</h3>
+        <input type="text" id="titolPrompt" placeholder="Títol del prompt">
+        <textarea id="descripcioPrompt" placeholder="Escriu ací el text o la descripció detallada del prompt mestre..."></textarea>
+        <button class="btn-accio" onclick="pujarPrompt()">Pujar al repositori</button>
+    </div>
+</div>
+
+<script>
+    // --- CONFIGURACIÓ DE SUPABASE ---
+    const SUPABASE_URL = "https://amswkfdhwashotagrhfo.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_J-PhmX7Awpb8UwDYXhYwWg_iISrccBy";
+
+    let totsElsPrompts = [];
+
+    // --- CONTROL DE PESTANYES ---
+    function canviarPestanya(desti) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
+
+        if (desti === 'assistent') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('seccio-assistent').classList.add('active');
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('seccio-repositori').classList.add('active');
+            carregarPrompts(); // Carrega els prompts en obrir la pestanya
+        }
+    }
+
+    // --- LÒGICA DEL REPOSITORI DE PROMPTS ---
+    async function carregarPrompts() {
+        try {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/prompts_mestres?select=*&order=id.desc`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+            });
+            totsElsPrompts = await res.json();
+            renderitzarPrompts(totsElsPrompts);
+        } catch (err) {
+            document.getElementById('promptList').innerHTML = "<p style='color: red;'>Error al carregar els prompts del repositori.</p>";
+        }
+    }
+
+    function renderitzarPrompts(prompts) {
+        const contenidor = document.getElementById('promptList');
+        if (!prompts || prompts.length === 0) {
+            contenidor.innerHTML = "<p>No hi ha prompts disponibles actualment en el repositori.</p>";
+            return;
+        }
+        contenidor.innerHTML = prompts.map(p => `
+            <div class="prompt-card">
+                <h4 style="margin: 0 0 8px 0; color: #333;">${p.titol}</h4>
+                <p style="margin: 0 0 12px 0; font-size: 13px; color: #666;">${p.descripcio}</p>
+                <button class="btn-accio" onclick="descarregarPrompt('${encodeURIComponent(p.titol)}', '${encodeURIComponent(p.descripcio)}')">Descarregar</button>
+            </div>
+        `).join('');
+    }
+
+    function filtrarPrompts() {
+        const text = document.getElementById('searchInput').value.toLowerCase();
+        const filtrats = totsElsPrompts.filter(p => 
+            p.titol.toLowerCase().includes(text) || p.descripcio.toLowerCase().includes(text)
+        );
+        renderitzarPrompts(filtrats);
+    }
+
+    // Modal
+    function obrirModal() { document.getElementById('uploadModal').style.display = 'block'; }
+    function tancarModal() { document.getElementById('uploadModal').style.display = 'none'; }
+
+    async function pujarPrompt() {
+        const titol = document.getElementById('titolPrompt').value;
+        const descripcio = document.getElementById('descripcioPrompt').value;
+
+        if (!titol || !descripcio) {
+            alert("Si us plau, ompli tots els camps abans de pujar-lo.");
+            return;
+        }
+
+        const resposta = await fetch(`${SUPABASE_URL}/rest/v1/prompts_mestres`, {
+            method: 'POST',
+            headers: { 
+                'apikey': SUPABASE_KEY, 
+                'Authorization': `Bearer ${SUPABASE_KEY}`, 
+                'Content-Type': 'application/json', 
+                'Prefer': 'return=representation' 
+            },
+            body: JSON.stringify({ titol, descripcio })
+        });
+
+        if (resposta.ok) {
+            alert("Prompt pujat correctament al repositori!");
+            tancarModal();
+            document.getElementById('titolPrompt').value = '';
+            document.getElementById('descripcioPrompt').value = '';
+            carregarPrompts();
+        } else {
+            alert("S'ha produït un error en guardar el prompt.");
+        }
+    }
+
+    function descarregarPrompt(titolCodificat, descripcioCodificada) {
+        const titol = decodeURIComponent(titolCodificat);
+        const descripcio = decodeURIComponent(descripcioCodificada);
+        const textComplet = `Títol: ${titol}\n\n${descripcio}`;
         
-        <div class="prompt-card">
-          <div class="prompt-title">Model 1: Recurs d'Al·legacions Col·lectives</div>
-          <div class="prompt-desc">Prompt per a generar al·legacions formalitzades davant la Conselleria.</div>
-          <div class="prompt-code">Actua com un assessor jurídic sindical de CCOO PV. Elabora un document d'al·legacions formalitzat adreçat a la Conselleria d'Educació respecte als següents punts: [INSERIR PUNTS]. Utilitza un llenguatge jurídic administratiu rigorós i fonamenta en la normativa docent vigent.</div>
-        </div>
+        const blob = new Blob([textComplet], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${titol}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
 
-        <div class="prompt-card">
-          <div class="prompt-title">Model 2: Comunicat per a Assemblea de Centre</div>
-          <div class="prompt-desc">Plantilla per a redactar comunicats d'accions i convocatòries de vaga.</div>
-          <div class="prompt-code">Redacta una nota informativa per al tauler d'anuncis i correu del claustre sobre els motius de la mobilització docent. Destaques els següents punts clau: [INSERIR MOTIUS]. El tó ha de ser convocant, clar i rigorós.</div>
-        </div>
-      </div>
-    </section>
-  </main>
 
-  <script src="script.js"></script>
+    // --- LÒGICA DE L'ASSISTENT VIRTUAL (La teua funció existent) ---
+    async function enviarMissatge() {
+        const input = document.getElementById('userInput');
+        const missatge = input.value.trim();
+        if (!missatge) return;
+
+        const chatMessages = document.getElementById('chat-messages');
+        
+        // Afegir missatge usuari
+        chatMessages.innerHTML += `<div class="message user">${missatge}</div>`;
+        input.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+            // Crida al teu Cloudflare Worker existent
+            const response = await fetch('/', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pregunta: missatge })
+            });
+            const data = await response.json();
+            const respostaBot = data.resposta || data.reply || "No s'ha pogut obtindre resposta.";
+            
+            chatMessages.innerHTML += `<div class="message bot">${respostaBot}</div>`;
+        } catch (err) {
+            chatMessages.innerHTML += `<div class="message bot" style="color:red;">Error de connexió amb l'Assistent.</div>`;
+        }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+</script>
+
 </body>
 </html>
