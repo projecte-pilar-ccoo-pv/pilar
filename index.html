@@ -151,11 +151,10 @@
         }
         contenidor.innerHTML = prompts.map(p => `
             <div class="prompt-card">
-                <h4 style="margin: 0 0 4px 0; color: #333;">${p.title || 'Sense títol'}</h4>
-                <p style="margin: 0 0 8px 0; font-size: 12px; color: #888;">
+                <h4 style="margin: 0 0 6px 0; color: #333; font-size: 16px;">${p.title || 'Sense títol'}</h4>
+                <p style="margin: 0 0 12px 0; font-size: 12px; color: #888;">
                     Autor: ${p.author || 'Anònim'} | Àmbit: ${p.category || 'General'}
                 </p>
-                <p style="margin: 0 0 12px 0; font-size: 13px; color: #666;">${p.body || ''}</p>
                 <button class="btn-accio" onclick="descarregarPrompt('${encodeURIComponent(p.title || '')}', '${encodeURIComponent(p.body || '')}')">Descarregar</button>
             </div>
         `).join('');
@@ -181,7 +180,7 @@
         const author = document.getElementById('new-prompt-author').value.trim();
         const category = document.getElementById('new-prompt-category').value.trim();
         const body = document.getElementById('new-prompt-body').value.trim();
-        const type = 'sindical'; // Definit automàticament per a tots
+        const type = 'sindical';
 
         if (!title || !body) {
             alert("Si us plau, ompli almenys el títol i el cos del prompt abans de pujar-lo.");
