@@ -106,9 +106,10 @@
 </div>
 
 <script>
-    // --- CONFIGURACIÓ DE SUPABASE ---
+    // --- CONFIGURACIÓ DE SUPABASE I WORKER ---
     const SUPABASE_URL = "https://amswkfdhwashotagrhfo.supabase.co";
     const SUPABASE_KEY = "sb_publishable_J-PhmX7Awpb8UwDYXhYwWg_iISrccBy";
+    const WORKER_URL = "https://sindicalista-virtual.francesc-j-hernandez.workers.dev";
 
     let totsElsPrompts = [];
 
@@ -232,7 +233,7 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
         try {
-            const response = await fetch('/', { 
+            const response = await fetch(WORKER_URL, { 
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ pregunta: missatge })
