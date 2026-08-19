@@ -36,12 +36,13 @@
         .modal input, .modal textarea { width: 100%; margin-bottom: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
         .modal textarea { height: 120px; resize: vertical; }
 
-        /* Estils previs de l'Assistent Virtual (intactes) */
+        /* Estils de l'Assistent Virtual */
         #chat-container { display: flex; flex-direction: column; height: 400px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
         #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #fafafa; display: flex; flex-direction: column; gap: 10px; }
         .message { padding: 10px 14px; border-radius: 8px; max-width: 80%; line-height: 1.4; font-size: 14px; }
         .message.user { background: #e3f2fd; align-self: flex-end; color: #0d47a1; }
         .message.bot { background: #fff; border: 1px solid #ddd; align-self: flex-start; color: #333; }
+        .message.loading { font-style: italic; color: #666; background: #f0f0f0; border: 1px dashed #ccc; align-self: flex-start; }
         .chat-input-area { display: flex; padding: 10px; background: #fff; border-top: 1px solid #ddd; }
         .chat-input-area input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
         .chat-input-area button { background: #b71c1c; color: white; border: none; padding: 0 20px; margin-left: 8px; border-radius: 4px; cursor: pointer; }
@@ -61,11 +62,11 @@
         <button class="tab-btn" onclick="canviarPestanya('repositori')">Repositori de Prompts</button>
     </div>
 
-    <!-- ================= 1. ASSISTENT VIRTUAL (INTACTE) ================= -->
+    <!-- ================= 1. ASSISTENT VIRTUAL ================= -->
     <div id="seccio-assistent" class="section-content active">
         <div id="chat-container">
             <div id="chat-messages">
-                <div class="message bot">Hola! Sóc l'agent intel·ligent de la FE CCOO PV. En què et puc ajudar avui respecte a la mobilització?</div>
+                <div class="message bot">Hola! Sóc l'agent intel·ligent de la Federació d'Ensenyament de CCOO PV, en què puc ajudar-te respecte a la mobilització?</div>
             </div>
             <div class="chat-input-area">
                 <input type="text" id="userInput" placeholder="Escriu la teua consulta..." onkeypress="if(event.key === 'Enter') enviarMissatge()">
@@ -122,7 +123,7 @@
         } else {
             document.querySelectorAll('.tab-btn')[1].classList.add('active');
             document.getElementById('seccio-repositori').classList.add('active');
-            carregarPrompts(); // Carrega els prompts en obrir la pestanya
+            carregarPrompts();
         }
     }
 
@@ -212,7 +213,7 @@
     }
 
 
-    // --- LÒGICA DE L'ASSISTENT VIRTUAL (La teua funció existent) ---
+    // --- LÒGICA DE L'ASSISTENT VIRTUAL ---
     async function enviarMissatge() {
         const input = document.getElementById('userInput');
         const missatge = input.value.trim();
@@ -225,8 +226,12 @@
         input.value = '';
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
+        // Afegir missatge temporal de càrrega
+        const loadingId = 'loading-' + Date.now();
+        chatMessages.innerHTML += `<div id="${loadingId}" class="message bot loading">Estic buscant la resposta a la consulta. Espera una estona</div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
         try {
-            // Crida al teu Cloudflare Worker existent
             const response = await fetch('/', { 
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -235,8 +240,11 @@
             const data = await response.json();
             const respostaBot = data.resposta || data.reply || "No s'ha pogut obtindre resposta.";
             
+            // Eliminar missatge de càrrega i posar la resposta
+            document.getElementById(loadingId).remove();
             chatMessages.innerHTML += `<div class="message bot">${respostaBot}</div>`;
         } catch (err) {
+            document.getElementById(loadingId).remove();
             chatMessages.innerHTML += `<div class="message bot" style="color:red;">Error de connexió amb l'Assistent.</div>`;
         }
         chatMessages.scrollTop = chatMessages.scrollHeight;
